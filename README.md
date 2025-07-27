@@ -11,70 +11,37 @@ This dataset contained over 300,000 rows of data across 3 tables: Portfolio, Pro
 I first wanted to look at the customer profile - gender split and age groups.
 
 select gender, round(sum(num)/14825*100,0) as gen_pct from
-
 (select gender, count(gender) as num
-
 from profile
-
 group by gender)
-
 group by gender, num
-
 order by gen_pct desc;
-
 Findings: 57% Male, 41% Female, 2% Other.
-
 select age_group, sum(total) as total
-
 from(
-
 select age, count(age) as total,
-
 case
-
-    when age between 18 and 30 then '18-30'
-    
-    when age between 31 and 40 then '31-40'
-    
-    when age between 41 and 50 then '41-50'
-    
-    when age between 51 and 60 then '51-60'
-    
-    when age between 61 and 70 then '61-70'
-    
-    when age between 71 and 80 then '71-80'
-    
-    when age between 81 and 90 then '81-90'
-    
+    when age between 18 and 30 then '18-30'  
+    when age between 31 and 40 then '31-40'    
+    when age between 41 and 50 then '41-50'    
+    when age between 51 and 60 then '51-60'    
+    when age between 61 and 70 then '61-70'    
+    when age between 71 and 80 then '71-80'    
+    when age between 81 and 90 then '81-90'    
     when age between 91 and 105 then '90+'
-
 else 'error'
-
 end as age_group
-
 from(
-    
     select customer, gender, age, count(event) as total from
-    
-        (select profile.id as customer, gender, age, event
-        
-        
-        from profile
-        
-        left join transcript
-        
-        on profile.id = transcript.person)
-        
-    group by customer, gender, age
-    
+        (select profile.id as customer, gender, age, event 
+        from profile        
+        left join transcript        
+        on profile.id = transcript.person)        
+    group by customer, gender, age    
 order by total desc)
-
 group by age
-
 order by age desc)
-
 group by age_group
-
 order by total desc;
 
 Findings: Highest number of customers aged between 51-60yo, with lowest in 81+yo.
@@ -82,15 +49,10 @@ Findings: Highest number of customers aged between 51-60yo, with lowest in 81+yo
 Next, I wanted to find the status of each offer and show as a percentage of total:
 
 select event, round(sum(total)/306534*100,0) as total_pct from(
-
 select event, count(event) as total
-
 from transcript
-
 group by event)
-
 group by event
-
 order by event desc;
 
 Findings: 45% of offers had been transacted with 11% completed.
