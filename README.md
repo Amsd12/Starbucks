@@ -9,11 +9,17 @@ This dataset contained over 300,000 rows of data across 3 tables: Portfolio, Pro
 - Which offer was completed most.
 
 I first wanted to look at the customer profile - gender split and age groups.
+
 select gender, round(sum(num)/14825*100,0) as gen_pct from
+
 (select gender, count(gender) as num
+
 from profile
+
 group by gender)
+
 group by gender, num
+
 order by gen_pct desc;
 
 Findings: 57% Male, 41% Female, 2% Other.
