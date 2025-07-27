@@ -16,7 +16,9 @@ from profile
 group by gender)
 group by gender, num
 order by gen_pct desc;
+
 Findings: 57% Male, 41% Female, 2% Other.
+
 select age_group, sum(total) as total
 from(
 select age, count(age) as total,
